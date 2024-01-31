@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TodoServiceAPI.Data;
+using TodoServiceAPI.Models.DTOs.Pagintions;
 using TodoServiceAPI.Models.DTOs.Todo;
 using TodoServiceAPI.Models.Entities;
 
@@ -67,9 +68,28 @@ namespace TodoServiceAPI.Services.Todo
 
         }
 
-        public Task<List<TodoItemDto>> GetAll(int page, int pageSize)
+        public async Task<PagintionListDto<TodoItemDto>> GetAll(int page, int pageSize, bool? isComleted)
         {
-            throw new NotImplementedException();
+            IQueryable<TodoItem> todoQuery=_context.TodoItems.AsQueryable();
+            if (isComleted.HasValue)
+            {
+                todoQuery = todoQuery.Where(e => e.IsComleted== isComleted);
+            }
+            var items= await todoQuery.Skip((page - 1)-pageSize).Take(pageSize).ToListAsync();
+            var totalCount=await todoQuery.CountAsync();
+            return new PagintionListDto<TodoItemDto>(
+
+                items.Select(e=> new TodoItemDto(
+                    id:e.Id,
+                    text:e.Text,
+                    isCompleted:e.IsCompleted,
+                    createdTime:e.CreatedTime
+
+                    )),
+                new PagintionMeta(page,pageSize,totalCount)
+
+                );
+
         }
 
 

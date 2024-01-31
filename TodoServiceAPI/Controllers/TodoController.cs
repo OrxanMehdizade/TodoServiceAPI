@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TodoServiceAPI.Models.DTOs.Pagintions;
 using TodoServiceAPI.Models.DTOs.Todo;
 using TodoServiceAPI.Services.Todo;
 
@@ -52,5 +53,13 @@ namespace TodoServiceAPI.Controllers
                 ? updatedItem
                 : NotFound();
         }
+
+        [HttpPost("TodoAll")]
+        public async Task<PagintionListDto<TodoItemDto>?> All(PagintionRequest request,bool? isCompleted)
+        {
+            var result = await _todoService.GetAll(request.Page, request.PageSize, isCompleted);
+            return result is not null ? result : null;
+        }
+
     }
 }
