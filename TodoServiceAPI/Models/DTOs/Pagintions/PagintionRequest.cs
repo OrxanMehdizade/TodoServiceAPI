@@ -1,4 +1,7 @@
-﻿namespace TodoServiceAPI.Models.DTOs.Pagintions
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+
+namespace TodoServiceAPI.Models.DTOs.Pagintions
 {
     public class PagintionRequest
     {

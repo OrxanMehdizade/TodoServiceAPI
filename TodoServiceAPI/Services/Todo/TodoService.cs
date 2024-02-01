@@ -28,10 +28,10 @@ namespace TodoServiceAPI.Services.Todo
 
 
             return new TodoItemDto(
-                    Id: todoItem.Id,
-                    Text: todoItem.Text,
-                    IsCompleted: todoItem.IsCompleted,
-                    CreatedTime: todoItem.CreatedTime);
+                    id: todoItem.Id,
+                    text: todoItem.Text,
+                    isCompleted: todoItem.IsCompleted,
+                    createdTime: todoItem.CreatedTime);
 
         }
 
@@ -48,10 +48,10 @@ namespace TodoServiceAPI.Services.Todo
             await _context.SaveChangesAsync();
 
             return new TodoItemDto(
-                    Id: todoItem.Id,
-                    Text: todoItem.Text,
-                    IsCompleted: todoItem.IsCompleted,
-                    CreatedTime: todoItem.CreatedTime);
+                    id: todoItem.Id,
+                    text: todoItem.Text,
+                    isCompleted: todoItem.IsCompleted,
+                    createdTime: todoItem.CreatedTime);
         }
 
         public async Task<bool> DeleteTodo(int id)
@@ -73,7 +73,7 @@ namespace TodoServiceAPI.Services.Todo
             IQueryable<TodoItem> todoQuery=_context.TodoItems.AsQueryable();
             if (isComleted.HasValue)
             {
-                todoQuery = todoQuery.Where(e => e.IsComleted== isComleted);
+                todoQuery = todoQuery.Where(e => e.IsCompleted == isComleted);
             }
             var items= await todoQuery.Skip((page - 1)-pageSize).Take(pageSize).ToListAsync();
             var totalCount=await todoQuery.CountAsync();
@@ -99,10 +99,10 @@ namespace TodoServiceAPI.Services.Todo
 
             return todoItem is not null
                 ? new TodoItemDto(
-                    Id: todoItem.Id,
-                    Text: todoItem.Text,
-                    IsCompleted: todoItem.IsCompleted,
-                    CreatedTime: todoItem.CreatedTime)
+                    id: todoItem.Id,
+                    text: todoItem.Text,
+                    isCompleted: todoItem.IsCompleted,
+                    createdTime: todoItem.CreatedTime)
                 : null;
         }
     }
